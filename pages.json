@@ -1,12 +1,11 @@
 {
-  "pages": [{
+  "pages": [
       {
         "path": "pages/home/home",
         "style": {
           "navigationBarTitleText": "",
           "enablePullDownRefresh": false
         }
-
       },
       {
         "path": "pages/cate/cate",
