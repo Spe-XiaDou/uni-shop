@@ -91,7 +91,6 @@
       // 定义获取楼层数据的方法
       async getFloorList() {
             const { data: res } = await $http.get('https://api-ugo-web.itheima.net/api/public/v1/home/floordata')
-            console.log(res)
             res.message.forEach(List => {
               List.product_list.forEach(prod => {
                 prod.url = '/subpkg/goods_list/goods_list?' + prod.navigator_url.split('?')[1]
