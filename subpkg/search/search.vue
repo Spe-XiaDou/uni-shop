@@ -21,7 +21,7 @@
     </view>
     <!-- 列表区域 -->
     <view class="history-list">
-      <uni-tag v-for="(item, i) in historyList" :key="i" :text="item" @click="gotoGoodsList(item)"></uni-tag> 
+      <uni-tag  :text="item" @click="gotoGoodsList(item)"></uni-tag> 
     </view>
   </view>
 </template>
