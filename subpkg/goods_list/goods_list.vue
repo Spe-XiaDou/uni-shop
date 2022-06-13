@@ -59,7 +59,7 @@
         } = await $http.get('https://api-ugo-web.itheima.net/api/public/v1/goods/search', this.queryObj)
         // 关闭节流阀
         this.isloading = false
-        console.log(res)
+
         // 存在回调则调用回调
         cb && cb()
         if (res.meta.status !== 200) return uni.$showMsg()
