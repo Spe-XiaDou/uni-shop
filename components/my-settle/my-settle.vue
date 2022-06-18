@@ -66,24 +66,24 @@
     align-items: center;
     padding-left: 5px;
     font-size: 14px;
-  }
-
-  .radio {
-    display: flex;
-    align-items: center;
-  }
-
-  .amount {
-    color: #c00000;
-  }
-
-  .btn-settle {
-    height: 50px;
-    min-width: 100px;
-    background-color: #c00000;
-    color: white;
-    line-height: 50px;
-    text-align: center;
-    padding: 0 10px;
+  
+    .radio {
+      display: flex;
+      align-items: center;
+    }
+  
+    .amount {
+      color: #c00000;
+    }
+  
+    .btn-settle {
+      height: 50px;
+      min-width: 100px;
+      background-color: #c00000;
+      color: white;
+      line-height: 50px;
+      text-align: center;
+      padding: 0 10px;
+    }
   }
 </style>
