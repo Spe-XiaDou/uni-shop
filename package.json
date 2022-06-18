@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@escook/request-miniprogram": "^0.2.1",
-    "@tool-developer/wx-request": "^0.0.6-canary.6"
+    "@tool-developer/wx-request": "^0.0.6-canary.6",
+    "vuex": "^4.0.2"
   }
 }

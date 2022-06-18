@@ -22,7 +22,7 @@
         </view>
       </view>
       <!-- 运费 -->
-      <view class="yf">快递：免运费</view>
+      <view class="yf">快递：免运费 -- {{m_cart.length}}</view>
     </view>
     <!-- 商品详情信息 -->
     <rich-text :nodes="goods_info.goods_introduce"></rich-text>
@@ -54,6 +54,9 @@
   $http.afterRequest = function() {
     uni.hideLoading()
   }
+  import {
+    mapState, mapMutations, mapGetters
+  } from 'vuex'
   export default {
     data() {
       return {
@@ -70,15 +73,16 @@
         }],
         // 右侧按钮组的配置对象
         buttonGroup: [{
-          text: '加入购物车',
-          backgroundColor: '#ff0000',
-          color: '#fff'
-        },
-        {
-          text: '立即购买',
-          backgroundColor: '#ffa200',
-          color: '#fff'
-        }]
+            text: '加入购物车',
+            backgroundColor: '#ff0000',
+            color: '#fff'
+          },
+          {
+            text: '立即购买',
+            backgroundColor: '#ffa200',
+            color: '#fff'
+          }
+        ]
       }
     },
     onLoad(options) {
@@ -87,7 +91,18 @@
       // 调用请求商品详情数据的方法
       this.getGoodsDetail(goods_id)
     },
+    computed: {
+      // ...mapState('模块的名称', ['要映射的数据名称1', '要映射的数据名称2'])
+      ...mapState({
+        m_cart: state => state.m_cart.cart,
+      }),
+      
+      // 把 m_cart 模块中名称为 total 的 getter 映射到当前页面中使用
+      ...mapGetters('m_cart', ['total']),
+    },
     methods: {
+      // 把 m_cart 模块中的 addToCart 方法映射到当前页面使用
+      ...mapMutations('m_cart', ['addToCart']),
       // 定义请求商品详情数据的方法
       async getGoodsDetail(goods_id) {
         const {
@@ -97,7 +112,6 @@
         })
         if (res.meta.status !== 200) return uni.$showMsg()
 
-        console.log(res)
         // 使用字符串的 replace() 方法，为 img 标签添加行内的 style 样式，从而解决图片底部空白间隙的问题;解决 .webp 格式图片在 ios 设备上无法正常显示的问题
         res.message.goods_introduce = res.message.goods_introduce.replace(/<img /g, '<img style="display:block;" ')
           .replace(/webp/g, 'jpg')
@@ -116,6 +130,7 @@
       },
       // 导航栏左侧按钮的点击事件处理函数
       onClick(e) {
+        console.log(this)
         if (e.content.text === '购物车') {
           // 切换到购物车页面
           uni.switchTab({
@@ -124,10 +139,41 @@
         }
       },
       buttonClick(e) {
-        console.log(e)
-        this.options[1].info++
+        // 1. 判断是否点击了 加入购物车 按钮
+        if (e.content.text === '加入购物车') {
+
+          // 2. 组织一个商品的信息对象
+          const goods = {
+            goods_id: this.goods_info.goods_id, // 商品的Id
+            goods_name: this.goods_info.goods_name, // 商品的名称
+            goods_price: this.goods_info.goods_price, // 商品的价格
+            goods_count: 1, // 商品的数量
+            goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+            goods_state: true // 商品的勾选状态
+          }
+
+          // 3. 通过 this 调用映射过来的 addToCart 方法，把商品信息对象存储到购物车中
+          this.addToCart(goods)
+
+        }
       }
-    }
+    },
+    watch: {
+      // 1. 监听 total 值的变化，通过第一个形参得到变化后的新值
+      // 使用对象的形式来定义 watch 侦听器，开启 immediate 属性
+      total: {
+        handler(newVal) {
+          // 2. 通过数组的 find() 方法，找到购物车按钮的配置对象
+          const findResult = this.options.find((x) => x.text === '购物车')
+    
+          if (findResult) {
+            // 3. 动态为购物车按钮的 info 属性赋值
+            findResult.info = newVal
+          }
+        },
+        immediate: true
+      },
+    },
   }
 </script>
 
