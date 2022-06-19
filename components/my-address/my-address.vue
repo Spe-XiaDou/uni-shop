@@ -48,10 +48,10 @@
       async chooseAddress() {
         // 1. 调用小程序提供的 chooseAddress() 方法，即可使用选择收货地址的功能
         //    返回值是一个数组：第 1 项为错误对象；第 2 项为成功之后的收货地址对象
-        const [succ, err] = await uni.chooseAddress().catch(err => err)
-        console.log("succ:", succ, ",err:", err)
+        const succ = await uni.chooseAddress()
+        console.log("succ:", succ)
         // 2. 用户成功的选择了收货地址
-        if (err === null && succ.errMsg === 'chooseAddress:ok') {
+        if (succ.errMsg === 'chooseAddress:ok') {
           // 为 data 里面的收货地址对象赋值
           // 3.3 调用 Store 中提供的 updateAddress 方法，将 address 保存到 Store 里面
           this.updateAddress(succ)
@@ -60,7 +60,7 @@
         // 导致问题的原因 - 用户取消授权后，再次点击 “选择收货地址” 按钮的时候：
         // 在模拟器和安卓真机上，错误消息 err.errMsg 的值为 chooseAddress:fail auth deny
         // 在 iPhone 真机上，错误消息 err.errMsg 的值为 chooseAddress:fail authorize no response
-        if (err && (err.errMsg === 'chooseAddress:fail auth deny' || err.errMsg === 'chooseAddress:fail authorize no response')) {
+        if (err.errMsg === 'chooseAddress:fail auth deny' || err.errMsg === 'chooseAddress:fail authorize no response') {
           this.reAuth() // 调用 this.reAuth() 方法，向用户重新发起授权申请
         }
       },

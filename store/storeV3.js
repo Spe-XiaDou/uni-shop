@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 // 1. 导入购物车的 vuex 模块
 import moduleCart from './cart.js'
 // 导入用户的 vuex 模块
-import * as moduleUser from './user.js'
+import moduleUser from './user.js'
 
 const store = createStore({
   // TODO：挂载 store 模块

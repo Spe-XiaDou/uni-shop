@@ -31,20 +31,7 @@
 </template>
 
 <script>
-  import {
-    $http
-  } from '@escook/request-miniprogram'
-  // 请求拦截器
-  $http.beforeRequest = function(options) {
-    uni.showLoading({
-      title: '数据加载中...'
-    })
-  }
-
-  // 响应拦截器
-  $http.afterRequest = function() {
-    uni.hideLoading()
-  }
+  import $http from '@/request/index.js'
   import badgeMix from '../../mixins/tabbar-badge.js'
   export default {
     mixins: [badgeMix],
